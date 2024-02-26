@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift List</title>
+    <!-- Add CSS and JS links for responsive design and date picker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        .table-container {
+            width: 80%;
+            margin: auto;
+        }
+        .summary {
+            width: 80%;
+            margin: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shift List</h1>
+        <form method="GET">
+            <div class="mb-3">
+                <label for="team">Select Team:</label>
+                <select class="form-select" id="team" name="team">
+                    <option value="">All</option>
+                    {% for team in teams %}
+                        <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="start_date">Start Date:</label>
+                <input type="date" class="form-control" id="start_date" name="start_date">
+            </div>
+            <div class="mb-3">
+                <label for="end_date">End Date:</label>
+                <input type="date" class="form-control" id="end_date" name="end_date">
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+
+    <!-- Shift Summary Section -->
+    <!-- Shift Summary Section -->
+<div class="summary">
+    <h2>Shift Summary</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Morning Shifts</th>
+                <th>Night Shifts</th>
+             
+            </tr>
+        </thead>
+        <tbody>
+            {% for count in shift_counts %}
+                <tr>
+                    <td>{{ count.team_member__username }}</td>
+                    <td>{{ count.morning_count }}</td>
+                    <td>{{ count.night_count }}</td>
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Button to download Excel -->
+<!--<div class="download-button">
+    <button onclick="downloadExcel()">Download Excel</button>
+</div>-->
+
+    <!-- Display Filtered Data -->
+    <!--<div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Morning Shift</th>
+                    <th>Night Shift</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for shift in shifts %}
+                    <tr>
+                        <td>{{ shift.team_member }}</td>
+                        <td>{% if shift.shift_type == 'Morning' %}Yes{% else %}No{% endif %}</td>
+                        <td>{% if shift.shift_type == 'Night' %}Yes{% else %}No{% endif %}</td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>-->
+
+    <!-- Add necessary JS libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#start_date, #end_date').datepicker({
+                autoclose: true,
+                format: 'yyyy-mm-dd',
+                todayHighlight: true,
+                clearBtn: true,
+                endDate: new Date()
+            });
+
+               
+            
+        });
+
+       /* function downloadExcel() {
+            window.location.href = "#";
+        }*/
+
+    </script>
+</body>
+</html>

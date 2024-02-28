@@ -21,6 +21,9 @@
             margin: auto;
             margin-top: 20px;
         }
+        .date-range {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -49,64 +52,38 @@
     </div>
 
     <!-- Shift Summary Section -->
-
-<!-- Shift Summary Section -->
-<div class="summary">
-    <h2>Shift Summary</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Emp ID</th>
-                <th>Morning Shifts</th>
-                <th>Night Shifts</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for count in shift_counts %}
-                <tr>
-                    <td>{{ count.team_member__username }}</td>
-                    <td>{{ count.team_member__userinfo__employeeID }}</td> <!-- Access employeeID field -->
-                    <td>{{ count.morning_count }}</td>
-                    <td>{{ count.night_count }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No data available</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<!-- Button to download Excel -->
-<!--<div class="download-button">
-    <button onclick="downloadExcel()">Download Excel</button>
-</div>-->
-
-    <!-- Display Filtered Data -->
-    <!--<div class="table-container">
+    <div class="summary">
+        <h2>Shift Summary</h2>
+        <!-- Display the date range in the table header -->
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th colspan="4" class="date-range">
+                        {% if start_date and end_date %}
+                            {{ start_date|date:"M d, Y" }} - {{ end_date|date:"M d, Y" }}
+                        {% endif %}
+                    </th>
+                </tr>
+                <tr>
                     <th>Name</th>
+                    <th>Emp ID</th>
                     <th>Morning Shift</th>
                     <th>Night Shift</th>
-                    
                 </tr>
             </thead>
             <tbody>
-                {% for shift in shifts %}
+                <!-- Iterate over shift_counts and display data -->
+                {% for count in shift_counts %}
                     <tr>
-                        <td>{{ shift.team_member }}</td>
-                        <td>{% if shift.shift_type == 'Morning' %}Yes{% else %}No{% endif %}</td>
-                        <td>{% if shift.shift_type == 'Night' %}Yes{% else %}No{% endif %}</td>
-                        
+                        <td>{{ count.team_member__username }}</td>
+                        <td>{{ count.team_member__userinfo__employeeID }}</td>
+                        <td>{{ count.morning_count }}</td>
+                        <td>{{ count.night_count }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div>-->
+    </div>
 
     <!-- Add necessary JS libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -121,15 +98,7 @@
                 clearBtn: true,
                 endDate: new Date()
             });
-
-               
-            
         });
-
-       /* function downloadExcel() {
-            window.location.href = "#";
-        }*/
-
     </script>
 </body>
 </html>

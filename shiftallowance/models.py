@@ -32,3 +32,10 @@ class UserInfo(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,unique=True)
     employeeID = models.IntegerField()
     team = models.CharField(max_length=50,choices=country,default='Kenya')
+
+
+class onShift(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    startDate = models.DateField()
+    endDate = models.DateField()
+

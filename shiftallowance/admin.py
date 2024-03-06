@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import Shift,UserInfo
+from .models import Shift,UserInfo,onShift
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 
-
+class onShiftAdmin(admin.ModelAdmin):
+    list_display = ["user","startDate","endDate"]
 
 class ShiftAdmin(admin.ModelAdmin):
     list_display = ('team_member', 'shift_type','date','nightShiftComment')
@@ -30,3 +31,4 @@ class CustomUserAdmin(UserAdmin):
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(onShift,onShiftAdmin)
